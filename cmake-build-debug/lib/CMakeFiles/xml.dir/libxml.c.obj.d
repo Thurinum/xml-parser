@@ -1,0 +1,24 @@
+lib/CMakeFiles/xml.dir/libxml.c.obj: \
+ C:\Users\2156153\CLionProjects\xml-parser\lib\libxml.c \
+ C:\Users\2156153\CLionProjects\xml-parser\lib\libxml.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/stdlib.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/corecrt.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/_mingw.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/_mingw_mac.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/_mingw_secapi.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/vadefs.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed/limits.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed/syslimits.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/limits.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/crtdefs.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/malloc.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/lib/gcc/x86_64-w64-mingw32/11.2.0/include/mm_malloc.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/errno.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/stdio.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/_mingw_off_t.h \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/swprintf.inl \
+ C:/JetBrains/apps/CLion/ch-0/231.8770.66/bin/mingw/x86_64-w64-mingw32/include/sec_api/stdio_s.h

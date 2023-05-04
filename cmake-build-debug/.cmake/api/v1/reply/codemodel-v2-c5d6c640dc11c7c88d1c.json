@@ -95,14 +95,14 @@
 				{
 					"directoryIndex" : 2,
 					"id" : "demo::@829df66619dbaeca8ef6",
-					"jsonFile" : "target-demo-Debug-b8e48d1dd4833fff221d.json",
+					"jsonFile" : "target-demo-Debug-4531d45e1287fa4ba400.json",
 					"name" : "demo",
 					"projectIndex" : 2
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "xml::@306ed2d68c6501e8728f",
-					"jsonFile" : "target-xml-Debug-0abe59cf7b0698a99c97.json",
+					"jsonFile" : "target-xml-Debug-aab7b834e630260c8066.json",
 					"name" : "xml",
 					"projectIndex" : 1
 				}

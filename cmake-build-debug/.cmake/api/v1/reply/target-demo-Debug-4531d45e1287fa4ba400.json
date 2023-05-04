@@ -102,7 +102,7 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "lib\\libxml.a",
+				"fragment" : "..\\lib\\libxml.a",
 				"role" : "libraries"
 			},
 			{
