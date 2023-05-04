@@ -1,0 +1,5 @@
+#ifndef XML_PARSER_LIBRARY_H
+#define XML_PARSER_LIBRARY_H
+
+
+#endif //XML_PARSER_LIBRARY_H

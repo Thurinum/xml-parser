@@ -1,0 +1,8 @@
+C:/Users/2156153/CLionProjects/xml-parser/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/2156153/CLionProjects/xml-parser/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/2156153/CLionProjects/xml-parser/cmake-build-debug/lib/CMakeFiles/xml.dir
+C:/Users/2156153/CLionProjects/xml-parser/cmake-build-debug/lib/CMakeFiles/edit_cache.dir
+C:/Users/2156153/CLionProjects/xml-parser/cmake-build-debug/lib/CMakeFiles/rebuild_cache.dir
+C:/Users/2156153/CLionProjects/xml-parser/cmake-build-debug/exec/CMakeFiles/demo.dir
+C:/Users/2156153/CLionProjects/xml-parser/cmake-build-debug/exec/CMakeFiles/edit_cache.dir
+C:/Users/2156153/CLionProjects/xml-parser/cmake-build-debug/exec/CMakeFiles/rebuild_cache.dir
