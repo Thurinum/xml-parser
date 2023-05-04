@@ -17,5 +17,7 @@ void append_to_vec(Vec *a, void *value) {
 }
 
 void free_vec(Vec *a) {
-
+    free(a->data);
+    a->data = NULL;
+    a->length = a->capacity = 0;
 }
