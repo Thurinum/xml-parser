@@ -1,5 +1,5 @@
 #include "libxml.h"
-
+#include "vec.h"
 
 
 #include <stdio.h>
@@ -14,34 +14,37 @@ struct XmlDocument *parseXml(const char* filename) {
         return NULL;
     }
 
-    struct XmlNode* currentNode;
+    XmlNode* currentNode = malloc(sizeof(XmlNode));
     int c; // might have to be int for EOF
     enum State state = NodeContent;
-    char content[] = "";
+    Vec content;
+    init_vec(&content, 1);
 
     while ((c = fgetc(file)) != EOF) {
+        printf("%c", c);
+
         if (c == '<') {
             state = NodeStartOrEnd;
-            content = "";
+            clear_vec(&content);
         } else if (c == '/' && state == NodeStartOrEnd) {
             state = NodeEnd;
         } else if (c == '>' && state == NodeStart) {
-            struct XmlNode* node = malloc(sizeof(struct XmlNode));
-            node->name = content;
-            node->content = "";
-            node->parent = currentNode;
-            node->nextSibling = NULL;
-            node->firstChild = NULL;
-            currentNode->nextSibling = node;
-            currentNode = node;
-            content = "";
+            XmlNode node;
+            node.name = malloc(sizeof(content.data));
+            strcpy(node.name, (const char*)content.data);
+            node.content = "";
+            node.parent = currentNode;
+            node.nextSibling = NULL;
+            node.firstChild = NULL;
+            currentNode = &node;
+            clear_vec(&content);
         } else if (c == '>' && state == NodeEnd) {
-            if (content == currentNode->name) {
+            if (strcmp(currentNode->name, (const char*)content.data) != 0) {
                 state = NodeContent;
                 currentNode = currentNode->parent;
-                content = "";
+                clear_vec(&content);
             } else {
-                printf("Error: closing tag %s does not match opening tag %s", content, currentNode->name);
+                printf("Error: closing tag %s does not match opening tag %s", content.data, currentNode->name);
                 return NULL;
             }
         } else {
@@ -49,6 +52,7 @@ struct XmlDocument *parseXml(const char* filename) {
                 state = NodeStart;
             }
 
+            append_to(&content, (char*)c);
         }
     }
 }

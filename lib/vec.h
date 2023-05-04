@@ -9,8 +9,9 @@ typedef struct {
     size_t capacity;
 } Vec;
 
-void new_vec(Vec* a, size_t initialSize);
-void append_to_vec(Vec* a, void* value);
-void free_vec(Vec* a);
+void init_vec(Vec* v, size_t initial_size);
+void append_to(Vec* v, void* value);
+void clear_vec(Vec* v);
+void free_vec(Vec* v);
 
 #endif //XML_PARSER_VEC_H

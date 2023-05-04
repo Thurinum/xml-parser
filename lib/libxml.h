@@ -4,13 +4,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-struct XmlNode {
+typedef struct {
     char *name;
     char *content;
     struct XmlNode *parent;
     struct XmlNode *nextSibling;
     struct XmlNode *firstChild;
-};
+} XmlNode;
 
 struct XmlDocument {
     char *name;

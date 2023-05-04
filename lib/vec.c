@@ -1,23 +1,36 @@
 #include <malloc.h>
 #include "vec.h"
 
-void new_vec(Vec *a, size_t initialSize) {
-    a->data = malloc(initialSize * sizeof(void *));
-    a->length = 0;
-    a->capacity = initialSize;
+void init_vec(Vec* v, size_t initial_size) {
+    v->data = malloc(initial_size * sizeof(void *));
+    v->length = 0;
+    v->capacity = initial_size;
 }
 
-void append_to_vec(Vec *a, void *value) {
-    if (a->length == a->capacity) {
-        a->capacity *= 2;
-        a->data = realloc(a->data, a->capacity * sizeof(void *));
+void append_to(Vec *v, void *value) {
+    if (v->length == v->capacity) {
+        size_t new_capacity = v->capacity * 2;
+        void** tmp = realloc(v->data, new_capacity * sizeof(void *));
+
+        if (!v->data)
+            v->data = tmp;
+        else
+            return;
+
+        v->capacity *= new_capacity;
     }
 
-    a->data[a->length++] = value;
+    v->data[v->length++] = value;
 }
 
-void free_vec(Vec *a) {
-    free(a->data);
-    a->data = NULL;
-    a->length = a->capacity = 0;
+void clear_vec(Vec *v) {
+    v->data = malloc(sizeof(void *));
+    v->length = 0;
+    v->capacity = 1;
+}
+
+void free_vec(Vec *v) {
+    free(v->data);
+    v->data = NULL;
+    v->length = v->capacity = 0;
 }
