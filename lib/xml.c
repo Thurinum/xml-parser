@@ -36,8 +36,10 @@ struct XmlDocument *parseXml(const char* filename) {
             node.name = str(&content);
             node.content = "";
 
-            if (currentNode)
+            if (currentNode) {
+                printf("\tCurrent node is <%s>\n", currentNode->name);
                 node.parent = currentNode;
+            }
             else
                 root = &node;
 
