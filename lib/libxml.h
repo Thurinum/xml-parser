@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 typedef struct {
-    char *name;
+    const char *name;
     char *content;
     struct XmlNode *parent;
     struct XmlNode *nextSibling;

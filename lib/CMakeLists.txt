@@ -3,4 +3,4 @@ project(xml C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_library(xml STATIC libxml.c vec.c vec.h)
+add_library(xml STATIC libxml.c string.c string.h)
