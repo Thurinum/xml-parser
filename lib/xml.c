@@ -14,14 +14,14 @@ struct XmlDocument *parseXml(const char* filename) {
         return NULL;
     }
 
-    XmlNode* root = malloc(sizeof(XmlNode));
+    XmlNode* root = NULL;
     XmlNode* currentNode = NULL;
+    XmlNode* previousNode = NULL;
 
     int c;
     enum State state = NodeContent;
     String content;
     init_str(&content, 1);
-    int depth = 0;
 
     while ((c = fgetc(file)) != EOF) {
         if (c == '<') {
@@ -48,8 +48,19 @@ struct XmlDocument *parseXml(const char* filename) {
             if (currentNode) {
                 printf("\tCurrent node is <%s>\n", currentNode->name);
                 node.parent = currentNode;
-            } else {
-                memcpy(root, &node, sizeof(XmlNode));
+
+                if (currentNode->firstChild == NULL) {
+                    currentNode->firstChild = malloc(sizeof(XmlNode));
+                    memcpy(currentNode->firstChild, &node, sizeof(XmlNode));
+                }
+
+                if (previousNode)
+                    node.nextSibling = previousNode;
+
+                if (root == NULL) {
+                    root = malloc(sizeof(XmlNode));
+                    memcpy(root, currentNode, sizeof(XmlNode));
+                }
             }
 
             currentNode = malloc(sizeof(XmlNode));
@@ -71,9 +82,10 @@ struct XmlDocument *parseXml(const char* filename) {
 
                 if (currentNode->parent == NULL) {
                     printf("DONE.\n");
-                    break; // TODO: Use a do while loop instead?
+                    break; // Use a do while loop instead?
                 }
 
+                previousNode = currentNode;
                 currentNode = currentNode->parent;
                 clear_str(&content);
                 printf("\tBack to parent <%s>\n", currentNode->name);
