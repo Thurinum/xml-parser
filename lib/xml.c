@@ -14,47 +14,57 @@ struct XmlDocument *parseXml(const char* filename) {
         return NULL;
     }
 
-    XmlNode* currentNode = malloc(sizeof(XmlNode));
+    XmlNode* root;
+    XmlNode* currentNode = NULL;
+
     int c;
     enum State state = NodeContent;
     String content;
     init_str(&content, 1);
 
     while ((c = fgetc(file)) != EOF) {
-//        printf("%c", c);
-
         if (c == '<') {
-            printf("Found either a start or end tag\n");
+            printf("Found ");
             state = NodeStartOrEnd;
             clear_str(&content);
         } else if (c == '/' && state == NodeStartOrEnd) {
-            printf("\tTurns out it's an end tag\n");
+            printf("end tag\n");
             state = NodeEnd;
         } else if (c == '>' && state == NodeStart) {
-            printf("Processing start tag <%s>\n", str(&content));
+            printf("\tParsing start tag <%s>\n", str(&content));
             XmlNode node;
             node.name = str(&content);
             node.content = "";
-            node.parent = currentNode;
+
+            if (currentNode)
+                node.parent = currentNode;
+            else
+                root = &node;
+
             node.nextSibling = NULL;
             node.firstChild = NULL;
             currentNode = &node;
             clear_str(&content);
-            printf("Now parsing element <%s>\n", currentNode->name);
+            if (currentNode->parent) {
+                printf("\tNow parsing element <%s> with parent <%s>\n", node.name, currentNode->parent->name);
+            } else {
+                printf("\tNow parsing root element <%s>\n", node.name);
+            }
         } else if (c == '>' && state == NodeEnd) {
             const char* node_name = str(&content);
-            printf("Processing end tag <%s>\n", node_name);
+            printf("\tParsing end tag </%s>\n", node_name);
             if (strcmp(currentNode->name, node_name) == 0) {
                 state = NodeContent;
                 currentNode = currentNode->parent;
                 clear_str(&content);
+                printf("\tBack to parent <%s>\n", currentNode->name);
             } else {
-                printf("ERROR: Closing tag <%s> does not match opening tag <%s>", node_name, currentNode->name);
+                printf("ERROR: End tag </%s> does not match start tag <%s>", node_name, currentNode->name);
                 return NULL;
             }
         } else {
             if (state == NodeStartOrEnd) {
-                printf("\tTurns out it's a start tag\n");
+                printf("start tag\n");
                 state = NodeStart;
             }
 
