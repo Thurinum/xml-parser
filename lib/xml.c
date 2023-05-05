@@ -21,6 +21,7 @@ struct XmlDocument *parseXml(const char* filename) {
     enum State state = NodeContent;
     String content;
     init_str(&content, 1);
+    int depth = 0;
 
     while ((c = fgetc(file)) != EOF) {
         if (c == '<') {
@@ -51,7 +52,8 @@ struct XmlDocument *parseXml(const char* filename) {
                 root = &node;
             }
 
-            currentNode = &node;
+            currentNode = malloc(sizeof(XmlNode));
+            memcpy(currentNode, &node, sizeof(XmlNode));
             clear_str(&content);
             state = NodeContent;
 
