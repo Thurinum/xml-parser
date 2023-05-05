@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <libxml.h>
+#include <xml.h>
 
 int main() {
     struct XmlDocument* doc = parseXml("dummy.xml");
