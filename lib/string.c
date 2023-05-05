@@ -35,9 +35,11 @@ void free_str(String *s) {
     s->length = s->capacity = 0;
 }
 
-const char* str(String *s) {
+char* str(String *s) {
     char* tmp = malloc((s->length + 1) * sizeof(char*));
+
     memcpy(tmp, s->data, s->length);
     tmp[s->length] = '\0';
+
     return tmp;
 }

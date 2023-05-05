@@ -10,7 +10,7 @@ typedef struct {
 } String;
 
 void init_str(String* s, size_t initial_size);
-const char* str(String *s);
+char* str(String *s);
 void append_to(String* s, char value);
 void clear_str(String* s);
 void free_str(String* s);

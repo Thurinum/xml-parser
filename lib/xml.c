@@ -32,21 +32,29 @@ struct XmlDocument *parseXml(const char* filename) {
             state = NodeEnd;
         } else if (c == '>' && state == NodeStart) {
             printf("\tParsing start tag <%s>\n", str(&content));
+
             XmlNode node;
-            node.name = str(&content);
+            node.name = malloc((content.length + 1) * sizeof(char*));
+            strcpy(node.name, str(&content));
             node.content = "";
+            node.parent = NULL;
+            node.nextSibling = NULL;
+            node.firstChild = NULL;
+
+            printf("\tNode name: <%s>\n", node.name);
+            printf("\tHas parent: %d\n", node.parent != NULL);
 
             if (currentNode) {
                 printf("\tCurrent node is <%s>\n", currentNode->name);
                 node.parent = currentNode;
-            }
-            else
+            } else {
                 root = &node;
+            }
 
-            node.nextSibling = NULL;
-            node.firstChild = NULL;
             currentNode = &node;
             clear_str(&content);
+            state = NodeContent;
+
             if (currentNode->parent) {
                 printf("\tNow parsing element <%s> with parent <%s>\n", node.name, currentNode->parent->name);
             } else {
