@@ -2,7 +2,7 @@
 #include <libxml.h>
 
 int main() {
-    struct XmlDocument* doc = parseXml("rip bozo.xml");
+    struct XmlDocument* doc = parseXml("dummy.xml");
 
     return EXIT_SUCCESS;
 }
