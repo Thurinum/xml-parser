@@ -14,7 +14,7 @@ struct XmlDocument *parseXml(const char* filename) {
         return NULL;
     }
 
-    XmlNode* root;
+    XmlNode* root = malloc(sizeof(XmlNode));
     XmlNode* currentNode = NULL;
 
     int c;
@@ -32,24 +32,31 @@ struct XmlDocument *parseXml(const char* filename) {
             state = NodeEnd;
         } else if (c == '>' && state == NodeStart) {
             printf("\tParsing start tag <%s>\n", str(&content));
-            XmlNode node;
-            node.name = str(&content);
-            node.content = "";
+
+            XmlNode* node = malloc(sizeof(XmlNode));
+            node->name = str(&content);
+            node->content = "";
+            node->parent = NULL;
+            node->nextSibling = NULL;
+            node->firstChild = NULL;
 
             if (currentNode)
-                node.parent = currentNode;
-            else
-                root = &node;
+                node->parent = currentNode;
+            else {
+                root = node;
+            }
 
-            node.nextSibling = NULL;
-            node.firstChild = NULL;
-            currentNode = malloc(sizeof(XmlNode));
-            memcpy(currentNode, &node, sizeof(XmlNode));
+            if (currentNode && currentNode->firstChild == NULL) {
+                currentNode->firstChild = node;
+            }
+
+            currentNode = node;
             clear_str(&content);
+
             if (currentNode->parent) {
-                printf("\tNow parsing element <%s> with parent <%s>\n", node.name, currentNode->parent->name);
+                printf("\tNow parsing element <%s> with parent <%s>\n", node->name, currentNode->parent->name);
             } else {
-                printf("\tNow parsing root element <%s>\n", node.name);
+                printf("\tNow parsing root element <%s>\n", node->name);
             }
         } else if (c == '>' && state == NodeEnd) {
             const char* node_name = str(&content);
@@ -58,7 +65,7 @@ struct XmlDocument *parseXml(const char* filename) {
                 state = NodeContent;
 
                 if (currentNode->parent)
-                    memcpy(currentNode, currentNode->parent, sizeof(XmlNode));
+                    currentNode = currentNode->parent;
                 
                 clear_str(&content);
                 printf("\tBack to parent <%s>\n", currentNode->name);
