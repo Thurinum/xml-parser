@@ -56,7 +56,15 @@ struct XmlDocument *parseXml(const char* filename) {
     printf("DONE.\n");
     free_str(&content);
     fclose(file);
-    return NULL;
+
+    struct XmlDocument* doc = malloc(sizeof(struct XmlDocument));
+    doc->root = root;
+    doc->name = "Dummy";
+    doc->version = "1.0";
+    doc->encoding = "UTF-8";
+    doc->standalone = "yes";
+
+    return doc;
 }
 
 XmlNode* rootTag(XmlNode **currentNode, String *content) {
