@@ -14,9 +14,8 @@ struct XmlDocument *parseXml(const char* filename) {
         return NULL;
     }
 
-    XmlNode* root = NULL;
+    XmlNode* root;
     XmlNode* currentNode = NULL;
-    XmlNode* previousNode = NULL;
 
     int c;
     enum State state = NodeContent;
@@ -33,41 +32,20 @@ struct XmlDocument *parseXml(const char* filename) {
             state = NodeEnd;
         } else if (c == '>' && state == NodeStart) {
             printf("\tParsing start tag <%s>\n", str(&content));
-
             XmlNode node;
-            node.name = malloc((content.length + 1) * sizeof(char*));
-            strcpy(node.name, str(&content));
+            node.name = str(&content);
             node.content = "";
-            node.parent = NULL;
+
+            if (currentNode)
+                node.parent = currentNode;
+            else
+                root = &node;
+
             node.nextSibling = NULL;
             node.firstChild = NULL;
-
-            printf("\tNode name: <%s>\n", node.name);
-            printf("\tHas parent: %d\n", node.parent != NULL);
-
-            if (currentNode) {
-                printf("\tCurrent node is <%s>\n", currentNode->name);
-                node.parent = currentNode;
-
-                if (currentNode->firstChild == NULL) {
-                    currentNode->firstChild = malloc(sizeof(XmlNode));
-                    memcpy(currentNode->firstChild, &node, sizeof(XmlNode));
-                }
-
-                if (previousNode)
-                    node.nextSibling = previousNode;
-
-                if (root == NULL) {
-                    root = malloc(sizeof(XmlNode));
-                    memcpy(root, currentNode, sizeof(XmlNode));
-                }
-            }
-
             currentNode = malloc(sizeof(XmlNode));
             memcpy(currentNode, &node, sizeof(XmlNode));
             clear_str(&content);
-            state = NodeContent;
-
             if (currentNode->parent) {
                 printf("\tNow parsing element <%s> with parent <%s>\n", node.name, currentNode->parent->name);
             } else {
@@ -76,17 +54,12 @@ struct XmlDocument *parseXml(const char* filename) {
         } else if (c == '>' && state == NodeEnd) {
             const char* node_name = str(&content);
             printf("\tParsing end tag </%s>\n", node_name);
-
             if (strcmp(currentNode->name, node_name) == 0) {
                 state = NodeContent;
 
-                if (currentNode->parent == NULL) {
-                    printf("DONE.\n");
-                    break; // Use a do while loop instead?
-                }
-
-                previousNode = currentNode;
-                currentNode = currentNode->parent;
+                if (currentNode->parent)
+                    memcpy(currentNode, currentNode->parent, sizeof(XmlNode));
+                
                 clear_str(&content);
                 printf("\tBack to parent <%s>\n", currentNode->name);
             } else {
@@ -103,15 +76,8 @@ struct XmlDocument *parseXml(const char* filename) {
         }
     }
 
+    printf("DONE.\n");
     free_str(&content);
     fclose(file);
-
-    struct XmlDocument* doc = malloc(sizeof(struct XmlDocument));
-    doc->name = "";
-    doc->version = "";
-    doc->encoding = "";
-    doc->standalone = "";
-    doc->root = root;
-
-    return doc;
+    return NULL;
 }
