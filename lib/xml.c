@@ -8,8 +8,8 @@
 #include <stdbool.h>
 
 XmlNode* rootTag(XmlNode **currentNode, String *content);
-void beginTag(XmlNode **currentNode, String *content);
-bool endTag(XmlNode **currentNode, enum State *state, String *content);
+void beginTag(XmlNode **currentNode, XmlNode **previousNode, String *content);
+bool endTag(XmlNode **currentNode, XmlNode **previousNode, enum State *state, String *content);
 
 struct XmlDocument *parseXml(const char* filename) {
     FILE *file = fopen(filename, "r");
@@ -21,6 +21,7 @@ struct XmlDocument *parseXml(const char* filename) {
 
     XmlNode* root = NULL;
     XmlNode* currentNode = NULL;
+    XmlNode* previousNode = NULL;
 
     int c;
     enum State state = NodeContent;
@@ -39,9 +40,9 @@ struct XmlDocument *parseXml(const char* filename) {
             if (!root)
                 root = rootTag(&currentNode, &content);
             else
-                beginTag(&currentNode, &content);
+                beginTag(&currentNode, &previousNode, &content);
         } else if (c == '>' && state == NodeEnd) {
-            if (!endTag(&currentNode, &state, &content))
+            if (!endTag(&currentNode, &previousNode, &state, &content))
                 return NULL;
         } else {
             if (state == NodeStartOrEnd) {
@@ -82,7 +83,7 @@ XmlNode* rootTag(XmlNode **currentNode, String *content) {
     return root;
 }
 
-void beginTag(XmlNode **currentNode, String *content) {
+void beginTag(XmlNode **currentNode, XmlNode **previousNode, String *content) {
     printf("\tParsing start tag <%s>\n", str(content));
 
     XmlNode* node = malloc(sizeof(XmlNode));
@@ -99,6 +100,10 @@ void beginTag(XmlNode **currentNode, String *content) {
         (*currentNode)->firstChild = node;
     }
 
+    if (*previousNode && *previousNode != node->parent) {
+        (*previousNode)->nextSibling = node;
+    }
+
     *currentNode = node;
     clear_str(content);
 
@@ -109,12 +114,14 @@ void beginTag(XmlNode **currentNode, String *content) {
     }
 }
 
-bool endTag(XmlNode **currentNode, enum State *state, String *content) {
+bool endTag(XmlNode **currentNode, XmlNode **previousNode, enum State *state, String *content) {
     const char* node_name = str(content);
     printf("\tParsing end tag </%s>\n", node_name);
 
     if (strcmp((*currentNode)->name, node_name) == 0) {
         *state = NodeContent;
+
+        *previousNode = *currentNode;
 
         if ((*currentNode)->parent)
             *currentNode = (*currentNode)->parent;
